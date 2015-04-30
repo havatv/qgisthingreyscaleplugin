@@ -338,7 +338,6 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
                 self.bandComboBox.addItem(self.inputlayer.bandName(i + 1), i)
                 #self.showInfo("Band " + str(i) + ": " +
                 #                self.inputlayer.bandName(i+1))
-
             # Check if the driver supports Create() or CreateCopy()
             #gdalmetadata = self.inputlayer.metadata()
             #self.showInfo("Layer metadata: " +
@@ -347,7 +346,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
             #providerpos = gdalmetadata.find(provstring)
             #brpos = gdalmetadata.find('<br>', providerpos + len(provstring))
             #self.gdalprovider = gdalmetadata[int(providerpos +
-                                         len(provstring)):int(brpos)]
+            #                             len(provstring)):int(brpos)]
             #self.showInfo('GDAL provider: '+self.gdalprovider)
             #drivername = self.gdalprovider.encode('ascii', 'ignore')
             #theDriver = gdal.GetDriverByName(drivername)

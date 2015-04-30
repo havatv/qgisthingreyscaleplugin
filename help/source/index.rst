@@ -35,10 +35,13 @@ The skeleton raster is saved as GeoTIFF, either at a location
 specified by the user or in the user's tempdir (files are not
 deleted automatically).
 
-The skeleton can be vectorised with GRASS *r.to.vect* by first
-binarising it (choosing an appropriate threshold level), and then
-thinning it using GRASS *r.thin* to get a skeleton that is compatible
-with *r.to.vect*.
+It is assumed that the higher the pixel values is, the more
+"important" is the pixel.
+
+The greyscale skeleton can be vectorised with GRASS *r.to.vect* by
+first binarising it (choosing an appropriate threshold), and then
+thinning it using GRASS *r.thin* to get a skeleton that is
+compatible with *r.to.vect*.
 
 Limitations
 =============
