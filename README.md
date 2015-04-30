@@ -1,0 +1,2 @@
+# qgisthingreyscaleplugin
+ThinGreyScale QGIS Plugin
