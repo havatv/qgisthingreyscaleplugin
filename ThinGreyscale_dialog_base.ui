@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>462</width>
-    <height>556</height>
+    <width>494</width>
+    <height>689</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -559,7 +559,14 @@
     </spacer>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <item>
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Levels:</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QProgressBar" name="progressBar">
        <property name="minimumSize">
@@ -573,6 +580,20 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Iterations: </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="iterProgressBar"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QDialogButtonBox" name="button_box">
        <property name="orientation">

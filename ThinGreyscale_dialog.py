@@ -190,6 +190,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
             worker.status.connect(self.workerInfo)
             worker.progress.connect(self.progressBar.setValue)
             worker.progress.connect(self.aprogressBar.setValue)
+            worker.iterprogress.connect(self.iterProgressBar.setValue)
             thread.started.connect(worker.run)
             thread.start()
             self.thread = thread
@@ -303,6 +304,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
                 self.showError(self.tr('No skeleton created') + '!')
         self.progressBar.setValue(0.0)
         #self.aprogressBar.setValue(0.0)
+        self.iterProgressBar.setValue(0.0)
         self.button_box.button(QDialogButtonBox.Ok).setEnabled(True)
         self.button_box.button(QDialogButtonBox.Close).setEnabled(True)
         self.button_box.button(QDialogButtonBox.Cancel).setEnabled(False)
