@@ -77,6 +77,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         okButton.setText(self.OK)
         cancelButton = self.button_box.button(QDialogButtonBox.Cancel)
         cancelButton.setText(self.CANCEL)
+        cancelButton.setEnabled(False)
         closeButton = self.button_box.button(QDialogButtonBox.Close)
         closeButton.setText(self.CLOSE)
         browseButton = self.browseButton
