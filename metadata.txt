@@ -30,7 +30,7 @@ changelog=0.1
 # Tags are comma separated with spaces allowed
 tags=skeleton,thin,greyscale,grayscale,levels,skeletonize,raster
 
-homepage=http://arken.umb.no/~havatv/gis/qgisplugins/ThinGreyscale/
+homepage=http://arken.nmbu.no/~havatv/gis/qgisplugins/ThinGreyscale/
 tracker=https://github.com/havatv/qgisthingreyscaleplugin/issues
 repository=https://github.com/havatv/qgisthingreyscaleplugin.git
 icon=icon.png
