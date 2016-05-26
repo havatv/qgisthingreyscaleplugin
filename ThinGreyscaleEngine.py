@@ -38,6 +38,7 @@ class Worker(QObject):
     maxlevels = 255  # we use uint8 to store the skeleton!
     # Define the signals used to communicate back to the application
     progress = pyqtSignal(float)  # For reporting progress
+    iterprogress = pyqtSignal(float)  # For reporting progress while iterating
     status = pyqtSignal(str)      # For reporting status
     error = pyqtSignal(str)       # For reporting errors
     #killed = pyqtSignal()
@@ -72,6 +73,7 @@ class Worker(QObject):
         # Current percentage of progress - updated by
         # calculate_progress
         self.percentage = 0
+        self.iterpercentage = 0
         self.levelspercentage = 0
         # Flag set by kill(), checked in the loop
         self.abort = False
@@ -210,6 +212,9 @@ class Worker(QObject):
 
                     relevantpixels = np.where(SkelMat == 1)
                     checkpixels = zip(relevantpixels[0], relevantpixels[1])
+                    self.iternumberofrows = len(checkpixels)
+                    self.iterincrement = self.numberofrows // 100
+                    self.iterprocessed = 0
                     for (row, column) in checkpixels:
                         if self.abort is True:
                             break
@@ -280,6 +285,7 @@ class Worker(QObject):
                         #        str(P4 * P6 * P8) + '(' + str(row) +
                         #        ',' + str(column) + ')')
                         #self.calculate_progress()
+                        self.calculate_iterprogress()
                     self.status.emit('1a')
                     # Substep 2: P1 = 0 if B(P1) >= 2; B(P1) <= 6; A(P1) = 1;
                     #    P2 x P4 x P8 != 1; P2 x P6 x P8 != 1
@@ -291,6 +297,9 @@ class Worker(QObject):
                     #                                dtype=np.uint8)
                     relevantpixels = np.where(SkelMat == 1)
                     checkpixels = zip(relevantpixels[0], relevantpixels[1])
+                    self.iternumberofrows = len(checkpixels)
+                    self.iterincrement = self.numberofrows // 100
+                    self.iterprocessed = 0
                     for (row, column) in checkpixels:
                         if self.abort is True:
                             break
@@ -352,6 +361,7 @@ class Worker(QObject):
                             #numChanges = numChanges + 1
                             changes = True
                             newSkelMat[row, column] = 0
+                        self.calculate_iterprogress()
                         #self.calculate_progress()
                     self.status.emit('1b')
                     #self.status.emit('Step 1 top left finished')
@@ -372,6 +382,9 @@ class Worker(QObject):
                 #newSkelMat = np.zeros((height + 2, width + 2), dtype=np.int16)
                 relevantpixels = np.where(SkelMat == 1)
                 checkpixels = zip(relevantpixels[0], relevantpixels[1])
+                self.iternumberofrows = len(checkpixels)
+                self.iterincrement = self.numberofrows // 100
+                self.iterprocessed = 0
                 for (row, column) in checkpixels:
                     if self.abort is True:
                         break
@@ -411,6 +424,7 @@ class Worker(QObject):
                     if tozero:
                         newSkelMat[row, column] = 0
                         #numChanges = numChanges + 1
+                    self.calculate_iterprogress()
                 SkelMat = newSkelMat
                 self.status.emit('Step 2 finished')
                 #self.status.emit('Step 2 finished - #changes: ' +
@@ -470,16 +484,29 @@ class Worker(QObject):
                 #self.finished.emit(True, SkelMatrices)
                 #self.finished.emit(True, None)
 
-    def calculate_progress(self):
+    #def calculate_progress(self):
+    #    '''Update progress and emit a signal with the percentage'''
+    #    self.processed = self.processed + 0.5  # Two times
+    #    # update the progress bar at certain increments
+    #    if (self.increment == 0 or
+    #            self.processed % self.increment == 0):
+    #        perc_new = (self.processed * 100) / self.numberofrows
+    #        if perc_new > self.percentage:
+    #            self.percentage = perc_new
+    #            self.progress.emit(self.percentage)
+
+    def calculate_iterprogress(self):
         '''Update progress and emit a signal with the percentage'''
-        self.processed = self.processed + 0.5  # Two times
+        if self.iterprocessed == 0:
+            self.iterpercentage = 0
+        self.iterprocessed = self.iterprocessed + 1
         # update the progress bar at certain increments
-        if (self.increment == 0 or
-                self.processed % self.increment == 0):
-            perc_new = (self.processed * 100) / self.numberofrows
-            if perc_new > self.percentage:
-                self.percentage = perc_new
-                self.progress.emit(self.percentage)
+        if (self.iterincrement == 0 or
+                self.iterprocessed % self.iterincrement == 0):
+            perc_new = (self.iterprocessed * 100) / self.iternumberofrows
+            if perc_new > self.iterpercentage:
+                self.iterpercentage = perc_new
+                self.iterprogress.emit(self.iterpercentage)
 
     def calculate_levelprogress(self):
         '''Update progress and emit a signal with the percentage'''
