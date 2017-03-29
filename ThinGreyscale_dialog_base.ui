@@ -251,7 +251,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>Level boundaries.&lt;br&gt;The topmost value is the minimum. The value at the bottom is the maximum value.</string>
+           <string>Level boundaries.&lt;br&gt;The topmost number is the minimum. The number at the bottom is the maximum value.</string>
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
@@ -618,7 +618,7 @@
      <item>
       <widget class="QLabel" name="label_10">
        <property name="text">
-        <string>Iterations: </string>
+        <string>Iterations:</string>
        </property>
       </widget>
      </item>
