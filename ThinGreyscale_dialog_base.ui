@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>494</width>
-    <height>689</height>
+    <height>664</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -66,6 +66,9 @@
             <height>0</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>The minimum pixel value</string>
+          </property>
           <property name="text">
            <string>0</string>
           </property>
@@ -98,6 +101,9 @@
             <width>40</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>The maximum pixel value</string>
           </property>
           <property name="text">
            <string>255</string>
@@ -183,7 +189,7 @@
         <item>
          <widget class="QLabel" name="label_8">
           <property name="text">
-           <string>Number of levels:</string>
+           <string>Number of output levels:</string>
           </property>
          </widget>
         </item>
@@ -243,6 +249,9 @@
             <width>0</width>
             <height>100</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>Level boundaries.&lt;br&gt;The topmost value is the minimum. The value at the bottom is the maximum value.</string>
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
@@ -351,6 +360,13 @@
            <number>0</number>
           </property>
           <item>
+           <widget class="Line" name="line_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
            <layout class="QVBoxLayout" name="verticalLayout_8">
             <property name="spacing">
              <number>0</number>
@@ -372,8 +388,11 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>50</height>
+                <height>16777215</height>
                </size>
+              </property>
+              <property name="toolTip">
+               <string>The red lines show the upper and lower cut-off values.</string>
               </property>
              </widget>
             </item>
@@ -406,16 +425,16 @@
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="Line" name="line">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-               </widget>
-              </item>
              </layout>
             </item>
            </layout>
+          </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -423,13 +442,13 @@
              <widget class="QLabel" name="maxBinNumber">
               <property name="minimumSize">
                <size>
-                <width>40</width>
+                <width>70</width>
                 <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>40</width>
+                <width>100</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -439,11 +458,14 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="toolTip">
+               <string>Total number of pixels considered</string>
+              </property>
               <property name="text">
                <string/>
               </property>
               <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+               <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
               </property>
              </widget>
             </item>
@@ -453,12 +475,12 @@
                <enum>Qt::Vertical</enum>
               </property>
               <property name="sizeType">
-               <enum>QSizePolicy::Minimum</enum>
+               <enum>QSizePolicy::Expanding</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>20</width>
-                <height>40</height>
+                <width>0</width>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -476,7 +498,7 @@
                <string>NAN%:</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -487,6 +509,9 @@
                 <width>35</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="toolTip">
+               <string>NAN percentage for the original image</string>
               </property>
               <property name="text">
                <string/>
@@ -499,6 +524,13 @@
            </layout>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="Line" name="line_6">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -532,7 +564,7 @@
       <item>
        <widget class="QCheckBox" name="levelValuesCheckBox">
         <property name="toolTip">
-         <string>Use the real level values as pixel values in the output raster, instead of the index of the level</string>
+         <string>Use the real level values as pixel values in the output raster, instead of the integer index of the level</string>
         </property>
         <property name="text">
          <string>Use level values as output pixel values</string>
@@ -575,6 +607,9 @@
          <height>0</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Progresses as the levels are processed</string>
+       </property>
        <property name="value">
         <number>24</number>
        </property>
@@ -588,7 +623,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="iterProgressBar"/>
+      <widget class="QProgressBar" name="iterProgressBar">
+       <property name="toolTip">
+        <string>Progression for step within a level</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
