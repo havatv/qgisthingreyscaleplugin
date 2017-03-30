@@ -43,6 +43,7 @@ from PyQt4.QtGui import QStandardItem, QStandardItemModel
 from qgis.core import QgsMessageLog, QgsMapLayerRegistry
 from qgis.core import QGis, QgsMapLayer, QgsRasterLayer
 from qgis.gui import QgsMessageBar
+from qgis.utils import showPluginHelp
 from osgeo import gdal
 
 from ThinGreyscaleEngine import Worker
@@ -61,6 +62,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         self.BROWSE = self.tr('Browse')
         self.CANCEL = self.tr('Cancel')
         self.CLOSE = self.tr('Close')
+        self.HELP = self.tr('Help')
         self.OK = self.tr('OK')
         self.DEFAULTPROVIDER = 'GTiff'
         self.DEFAULTEXTENSION = '.tif'
@@ -87,11 +89,15 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         self.levelsListView.setModel(self.listModel)
         self.levelsListView.sizeHintForColumn(20)
         #self.levelValuesCheckBox.setEnabled(False)
+        # Help button
+        helpButton = self.helpButton
+        helpButton.setText(self.HELP)
 
         # Connect signals
         okButton.clicked.connect(self.startWorker)
         cancelButton.clicked.connect(self.killWorker)
         closeButton.clicked.connect(self.reject)
+        helpButton.clicked.connect(self.help)
         browseButton.clicked.connect(self.browse)
 
         inpIndexCh = self.inputRaster.currentIndexChanged['QString']
@@ -860,6 +866,11 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
     def resizeEvent(self, event):
         #self.showInfo("resizeEvent")
         self.calculateHistogram()
+
+    def help(self):
+        #QDesktopServices.openUrl(QUrl.fromLocalFile(
+        #                 self.plugin_dir + "/help/html/index.html"))
+        showPluginHelp(None, "help/html/index")
 
     # Implement the accept method to avoid exiting the dialog when
     # starting the work

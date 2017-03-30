@@ -16,79 +16,84 @@
 <context>
     <name>ThinGreyscaleDialog</name>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="60"/>
+        <location filename="ThinGreyscale_dialog.py" line="61"/>
         <source>ThinGreyscale</source>
         <translation>TynnGråtone</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="61"/>
+        <location filename="ThinGreyscale_dialog.py" line="62"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="62"/>
+        <location filename="ThinGreyscale_dialog.py" line="63"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="63"/>
+        <location filename="ThinGreyscale_dialog.py" line="64"/>
         <source>Close</source>
         <translation>Lukk</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="64"/>
+        <location filename="ThinGreyscale_dialog.py" line="66"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="148"/>
+        <location filename="ThinGreyscale_dialog.py" line="154"/>
         <source>No input layer defined</source>
         <translation>Innlag mangler</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="171"/>
+        <location filename="ThinGreyscale_dialog.py" line="177"/>
         <source>Skeletonising</source>
         <translation>Skjelettifisering</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="297"/>
+        <location filename="ThinGreyscale_dialog.py" line="303"/>
         <source>ThinGreyscale finished</source>
         <translation>TynnGråtone fullført</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="302"/>
+        <location filename="ThinGreyscale_dialog.py" line="308"/>
         <source>Aborted</source>
         <translation>Avbrutt</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="304"/>
+        <location filename="ThinGreyscale_dialog.py" line="310"/>
         <source>No skeleton created</source>
         <translation>Skjelettet kunne ikke lages</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="322"/>
+        <location filename="ThinGreyscale_dialog.py" line="328"/>
         <source>Worker</source>
         <translation>Arbeider</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="784"/>
+        <location filename="ThinGreyscale_dialog.py" line="790"/>
         <source>Killing worker</source>
         <translation>Avbryter arbeider</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="790"/>
+        <location filename="ThinGreyscale_dialog.py" line="796"/>
         <source>Error</source>
         <translation>Feil</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="798"/>
+        <location filename="ThinGreyscale_dialog.py" line="804"/>
         <source>Warning</source>
         <translation>Advarsel</translation>
     </message>
     <message>
-        <location filename="ThinGreyscale_dialog.py" line="806"/>
+        <location filename="ThinGreyscale_dialog.py" line="812"/>
         <source>Info</source>
         <translation>Info</translation>
+    </message>
+    <message>
+        <location filename="ThinGreyscale_dialog.py" line="65"/>
+        <source>Help</source>
+        <translation>Hjelp</translation>
     </message>
 </context>
 <context>
@@ -176,7 +181,7 @@
     <message>
         <location filename="ThinGreyscale_dialog_base.ui" line="331"/>
         <source>Histogram</source>
-        <translation type="unfinished"></translation>
+        <translation>Histogram</translation>
     </message>
     <message>
         <location filename="ThinGreyscale_dialog_base.ui" line="351"/>
@@ -262,6 +267,11 @@
         <location filename="ThinGreyscale_dialog_base.ui" line="621"/>
         <source>Iterations:</source>
         <translation>Iterasjoner:</translation>
+    </message>
+    <message>
+        <location filename="ThinGreyscale_dialog_base.ui" line="649"/>
+        <source>Help</source>
+        <translation>Hjelp</translation>
     </message>
 </context>
 </TS>
