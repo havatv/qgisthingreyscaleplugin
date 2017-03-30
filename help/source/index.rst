@@ -185,3 +185,16 @@ References
 [1] Biagioni and Eriksson: *Map Inference in the Face of Noise and Disparity*.  SIGSPATIAL GIS, pages 79-88. ACM, 2012.
 
 [2] Zhang & Suen 1984: *A fast parallel algorithm for thinning digital patterns*.  Communications of the ACM, volume 27, issue 3, pages 236-239. ACM, 1984.
+
+Links
+======
+`ThinGreyscale Plugin`_
+
+`ThinGreyscale code repository`_
+
+`ThinGreyscale issues`_
+
+.. _ThinGreyscale code repository: https://github.com/havatv/qgisthingreyscaleplugin.git
+.. _ThinGreyscale Plugin: http://arken.umb.no/~havatv/gis/qgisplugins/SDEllipse
+.. _ThinGreyscale issues: https://github.com/havatv/qgisthingreyscaleplugin/issues
+
