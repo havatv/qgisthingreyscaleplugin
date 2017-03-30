@@ -10,7 +10,7 @@
 name=Thin greyscale image to skeleton
 qgisMinimumVersion=2.0
 description=Thin a greyscale image to a skeleton
-version=0.1
+version=0.2
 author=Håvard Tveite, NMBU
 email=havard.tveite@nmbu.no
 
@@ -24,7 +24,9 @@ about=The Thin Greyscale plugin will thin a greyscale image
       Integer and decimal bands are supported.
 
 # Uncomment the following line and add your changelog:
-changelog=0.1
+changelog=0.2
+    -- user interface update (help button, tooltips, ...)
+    0.1
     -- initial version
 
 # Tags are comma separated with spaces allowed

@@ -16,13 +16,13 @@ ThinGreyScale is a QGIS plugin.
 Functionality
 ==============
 
-Performs thinning of a greyscale image using a slightly
-modified version of an algorithm presented by Biagioni and
+Performs thinning of a greyscale image (or an image band) using a
+slightly modified version of an algorithm presented by Biagioni and
 Eriksson [1].
 
-Based on a set of levels, specified by the user, the image is thinned
-to a skeleton by first thinning the set of pixels that have values
-higher than or equal to the highest level.
+Based on a user specified set of levels, the image (or band)
+is thinned to a skeleton by first thinning the set of pixels that
+have values higher than or equal to the highest level.
 Then the next highest level is considered.
 Here all pixels that have values in the two highest levels are
 considered, but the thinning is constrained by the skeleton from
@@ -31,12 +31,13 @@ This continues until the lowest level is reached.
 
 The result is a skeleton raster with skeleton pixels that have
 values corresonding to the level at which they were found.
+The lowest level has value 1.
 The skeleton raster is saved as GeoTIFF, either at a location
 specified by the user or in the user's tempdir (files are not
 deleted automatically).
 
-It is assumed that the higher the pixel values is, the more
-"important" is the pixel.
+It is assumed that the higher the pixel values in the input image is,
+the more "important" is the pixel.
 
 The greyscale skeleton can be vectorised with GRASS *r.to.vect* by
 first binarising it (choosing an appropriate threshold), and then
@@ -149,7 +150,8 @@ Options
 
 * Minimum value for the skeleton algorithm (lower bound for the
   minimum level).
-  The default is the mean value of the input layer band.
+  The default is the mean value of the input layer band, but this
+  can easily be changed.
   For integer input raster layers, the mean value is rounded up to
   the closest integer.
 
@@ -159,12 +161,19 @@ Options
   Setting the maximum value so something that is less than the raster
   layer maximum is normally not a good idea.
 
-* The levels to be used by the algorithm can be modified (add,
-  remove, suggest based on a number of levels).
+* The levels to be used by the algorithm can be modified by setting
+  the level boundaries manuall using the *add* and *remove* buttons,
+  or the levels can be suggested using the *Suggest levels* button
+  (based on the   minimum and maximum values and the number of
+  levels, using equal intervals).
 
 * Output raster dataset file name and location.
   If no output file name is specified, a GeoTIFF file with prefix
-  "greyskel"  will be created in the user's tempdir.
+  "greyskel" will be created in the user's tempdir.
+
+* The *Use level values as output pixel values* can be used to
+  output the lower boundary value of the level instead of the level
+  sequence number (1 for the lowest level).
 
 * The histogram of input raster values can be generated.
   The generated histogram will include the values between the minimum
