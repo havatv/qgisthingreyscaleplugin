@@ -194,6 +194,25 @@ Links
 
 `ThinGreyscale issues`_
 
+Citation
+==========
+
+Would you like to cite / reference this plugin?
+
+Tveite, H. (2015). The QGIS Thin Greyscale Image to Skeleton Plugin. http://plugins.qgis.org/plugins/ThinGreyscale/.
+
+Bibtex:
+
+.. code-block:: latex
+
+  @misc{tveitesde,
+    author =   {Håvard Tveite},
+    title =    {The {QGIS} Thin Greyscale Image to Skeleton Plugin},
+    howpublished = {\url{http://plugins.qgis.org/plugins/ThinGreyscale/}},
+    year = {2015--2018}
+  }
+
+
 .. _ThinGreyscale code repository: https://github.com/havatv/qgisthingreyscaleplugin.git
 .. _ThinGreyscale Plugin: http://arken.umb.no/~havatv/gis/qgisplugins/SDEllipse
 .. _ThinGreyscale issues: https://github.com/havatv/qgisthingreyscaleplugin/issues
