@@ -535,4 +535,4 @@ class Worker(QObject):
         :rtype: QString
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('NNJoinEngine', message)
+        return QCoreApplication.translate('ThinGreyscaleEngine', message)
