@@ -76,6 +76,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
 
+        self.showInfo("Connecting UI components")
         okButton = self.button_box.button(QDialogButtonBox.Ok)
         okButton.setText(self.OK)
         cancelButton = self.button_box.button(QDialogButtonBox.Cancel)
@@ -95,6 +96,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         helpButton.setText(self.HELP)
 
         # Connect signals
+        self.showInfo("Connecting signals")
         okButton.clicked.connect(self.startWorker)
         cancelButton.clicked.connect(self.killWorker)
         closeButton.clicked.connect(self.reject)
@@ -217,7 +219,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         """Handles the output from the worker and cleans up after the
            worker has finished."""
         # clean up the worker and thread
-        #self.showInfo("Handling the result")
+        self.showInfo("Handling the result")
         self.worker.deleteLater()
         self.thread.quit()
         self.thread.wait()
@@ -335,6 +337,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
     def layerchanged(self, number=0):
         """Do the necessary updates after a layer selection has
            been changed."""
+        self.showInfo("Layer changed")
         # If the layer list is being updated, don't do anything
         if self.layerlistchanging:
             return
@@ -410,7 +413,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
 
     def bandChanged(self):
         band = self.bandComboBox.currentIndex() + 1
-        #self.showInfo("Band changed: " + str(band))
+        self.showInfo("Band changed: " + str(band))
         statistics = self.inputrasterprovider.bandStatistics(band)
         #self.showInfo("Band statistics: " + str(statistics.minimumValue) +
         #                            " - " + str(statistics.maximumValue) +
@@ -476,8 +479,8 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         #   return
         if isnan(maxvalue) or isnan(minvalue):
             return
-        #self.showInfo("minvalue: " + str(minvalue) + " Maxvalue: " +
-        #                                               str(maxvalue))
+        self.showInfo("minvalue: " + str(minvalue) + " Maxvalue: " +
+                                                       str(maxvalue))
         #if self.intband:
         #    minvalue = int(minvalue)
         #    maxvalue = int(maxvalue)
@@ -497,8 +500,8 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         if self.intband:
             minvalue = int(minvalue)
             maxvalue = int(maxvalue)
-        #self.showInfo("minvalue: " + str(minvalue) + " Maxvalue: " +
-        #                            str(maxvalue))
+        self.showInfo("minvalue: " + str(minvalue) + " Maxvalue: " +
+                                    str(maxvalue))
         # Update the spin box for adding levels
         self.levelSpinBox.setMinimum(minvalue)
         self.levelSpinBox.setMaximum(maxvalue)
@@ -535,11 +538,14 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         self.drawHistogram()
 
     def calculateHistogram(self):
+        self.showInfo("Calculating histogram...")
         if self.inputlayer is None:
             return
-        #self.showInfo("Calculating histogram...")
+        
+        self.showInfo("Calculating histogram...")
         # Check if there is only one value
-        myrange = (self.minValueSpinBox.value(), self.maxValueSpinBox.value())
+        myrange = (self.minValueSpinBox.value(),
+                   self.maxValueSpinBox.value())
         self.inputextent = self.inputlayer.extent()
         self.inputrdp = self.inputlayer.dataProvider()
         width = self.inputlayer.width()
@@ -558,6 +564,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         for row in range(height):
             for column in range(width):
                 imageMat[row, column] = rasterblock.value(row, column)
+                self.showInfo("Image: " + str(height) + ", " + str(width) + " - " + str(imageMat[row, column]))
         self.histo = np.histogram(imageMat, self.histobins, myrange)
         #relevantpixels = imageMat[np.where(imageMat >= bandval)]
         minlevel = float(self.bandMinLabel.text())
@@ -581,7 +588,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
     def drawHistogram(self):
         #if self.inputlayer is None:
         #    return
-        #self.showInfo("Drawing histogram...")
+        self.showInfo("Drawing histogram...")
         viewprect = QRectF(self.histoGraphicsView.viewport().rect())
         self.histoGraphicsView.setSceneRect(viewprect)
         self.setupScene.clear()
@@ -650,7 +657,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
 
     def suggestLevels(self):
         self.listModel.clear()
-        #self.showInfo("Suggesting levels")
+        self.showInfo("Suggesting levels")
         levels = self.levelsSpinBox.value()
         startvalue = self.minValueSpinBox.value()
         endvalue = self.maxValueSpinBox.value()
@@ -698,6 +705,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
 
     def layerlistchanged(self):
         self.layerlistchanging = True
+        self.showInfo("Layer list changed")
         # Repopulate the input layer combo box
         # Save the currently selected input layer
         inputlayerid = self.inputlayerid
