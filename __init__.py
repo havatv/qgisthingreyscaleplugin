@@ -6,7 +6,7 @@
  Thin a greyscale image to a skeleton
                              -------------------
         begin                : 2014-12-22
-        copyright            : (C) 2014 by Håvard Tveite, NMBU
+        copyright            : (C) 2014-2019 by Håvard Tveite, NMBU
         email                : havard.tveite@nmbu.no
         git sha              : $Format:%H$
  ***************************************************************************/

@@ -27,26 +27,27 @@ from tempfile import NamedTemporaryFile
 from tempfile import mktemp
 import numpy as np
 
-from PyQt4 import uic
+from qgis.PyQt import uic
 #from PyQt4.QtCore import QUrl
-from PyQt4.QtCore import SIGNAL, QObject, QThread, Qt, QFileInfo
-from PyQt4.QtCore import QCoreApplication, QSettings
-from PyQt4.QtCore import QPointF, QRectF, QPoint
-from PyQt4.QtGui import QDialog, QDialogButtonBox, QProgressBar
-from PyQt4.QtGui import QPushButton, QFileDialog
-#from PyQt4.QtGui import QDesktopServices
-from PyQt4.QtGui import QGraphicsLineItem, QGraphicsRectItem
-from PyQt4.QtGui import QGraphicsScene, QBrush, QPen, QColor
-from PyQt4.QtGui import QGraphicsView
-from PyQt4.QtGui import QStandardItem, QStandardItemModel
+#from qgis.PyQt.QtCore import SIGNAL, QObject, QThread, Qt, QFileInfo
+from qgis.PyQt.QtCore import QObject, QThread, Qt, QFileInfo
+from qgis.PyQt.QtCore import QCoreApplication, QSettings
+from qgis.PyQt.QtCore import QPointF, QRectF, QPoint
+from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox, QProgressBar
+from qgis.PyQt.QtWidgets import QPushButton, QFileDialog
+#from qgis.PyQt.QtGui import QDesktopServices
+from qgis.PyQt.QtWidgets import QGraphicsLineItem, QGraphicsRectItem
+from qgis.PyQt.QtWidgets import QGraphicsScene, QGraphicsView
+from qgis.PyQt.QtGui import QBrush, QPen, QColor
+from qgis.PyQt.QtGui import QStandardItem, QStandardItemModel
 
-from qgis.core import QgsMessageLog, QgsMapLayerRegistry
-from qgis.core import QGis, QgsMapLayer, QgsRasterLayer
+from qgis.core import QgsMessageLog, QgsProject
+from qgis.core import Qgis, QgsMapLayer, QgsRasterLayer
 from qgis.gui import QgsMessageBar
 from qgis.utils import showPluginHelp
 from osgeo import gdal
 
-from ThinGreyscaleEngine import Worker
+from .ThinGreyscaleEngine import Worker
 
 
 FORM_CLASS, _ = uic.loadUiType(join(
@@ -108,7 +109,8 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         #    self.layerlistchanged)
         #self.iface.legendInterface().itemRemoved.connect(
         #    self.layerlistchanged)
-        QObject.disconnect(self.button_box, SIGNAL("rejected()"), self.reject)
+        #QObject.disconnect(self.button_box, SIGNAL("rejected()"), self.reject)
+        self.button_box.rejected.disconnect(self.reject)
         calchistPr = self.calcHistPushButton.clicked
         calchistPr.connect(self.calculateHistogram)
         sugglevPr = self.suggestlevelsPushButton.clicked
@@ -149,7 +151,8 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         try:
             layerindex = self.inputRaster.currentIndex()
             layerId = self.inputRaster.itemData(layerindex)
-            inputlayer = QgsMapLayerRegistry.instance().mapLayer(layerId)
+            inputlayer = QgsProject.instance().mapLayer(layerId)
+            #inputlayer = QgsMapLayerRegistry.instance().mapLayer(layerId)
             if inputlayer is None:
                 self.showError(self.tr('No input layer defined'))
                 return
@@ -186,7 +189,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
             # Has to be popped after the thread has finished (in
             # workerFinished).
             self.iface.messageBar().pushWidget(msgBar,
-                                        self.iface.messageBar().INFO)
+                                        Qgis.Info)
             self.messageBar = msgBar
             # start the worker in a new thread
             thread = QThread(self)
@@ -286,7 +289,8 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
                 # report the result
                 rlayer = QgsRasterLayer(thisfilename, baseName)
                 self.layerlistchanging = True
-                QgsMapLayerRegistry.instance().addMapLayer(rlayer)
+                #QgsMapLayerRegistry.instance().addMapLayer(rlayer)
+                QgsProject.instance().addMapLayer(rlayer)
                 self.layerlistchanging = False
             except:
                 import traceback
@@ -301,7 +305,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
                 cancb.setEnabled(False)
                 return
             QgsMessageLog.logMessage(self.tr('ThinGreyscale finished'),
-                                self.THINGREYSCALE, QgsMessageLog.INFO)
+                                self.THINGREYSCALE, Qgis.Info)
         else:
             # notify the user that something went wrong
             if not ok:
@@ -326,7 +330,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
     def workerInfo(self, message_string):
         """Report an info message from the worker."""
         QgsMessageLog.logMessage(self.tr('Worker') + ': ' + message_string,
-                                 self.THINGREYSCALE, QgsMessageLog.INFO)
+                                 self.THINGREYSCALE, Qgis.Info)
 
     def layerchanged(self, number=0):
         """Do the necessary updates after a layer selection has
@@ -337,7 +341,8 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         layerindex = self.inputRaster.currentIndex()
         layerId = self.inputRaster.itemData(layerindex)
         self.inputlayerid = layerId
-        self.inputlayer = QgsMapLayerRegistry.instance().mapLayer(layerId)
+        #self.inputlayer = QgsMapLayerRegistry.instance().mapLayer(layerId)
+        self.inputlayer = QgsProject.instance().mapLayer(layerId)
         if self.inputlayer is not None:
             self.inputrasterprovider = self.inputlayer.dataProvider()
             self.bandComboBox.clear()
@@ -414,8 +419,8 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         self.bandmax = statistics.maximumValue
         dt = self.inputrasterprovider.dataType(band)
         # Integer data type
-        if (dt == QGis.Byte or dt == QGis.UInt16 or dt == QGis.Int16
-                            or dt == QGis.UInt32 or dt == QGis.Int32):
+        if (dt == Qgis.Byte or dt == Qgis.UInt16 or dt == Qgis.Int16
+                            or dt == Qgis.UInt32 or dt == Qgis.Int32):
             self.intband = True
             self.minValueSpinBox.setDecimals(0)
             self.maxValueSpinBox.setDecimals(0)
@@ -722,7 +727,8 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         #                           '_' + 'thinned')
         layerindex = self.inputRaster.currentIndex()
         layerId = self.inputRaster.itemData(layerindex)
-        inputlayer = QgsMapLayerRegistry.instance().mapLayer(layerId)
+        #inputlayer = QgsMapLayerRegistry.instance().mapLayer(layerId)
+        inputlayer = QgsProject.instance().mapLayer(layerId)
         if inputlayer is not None:
             pass
         else:
@@ -788,7 +794,7 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
         """Kill the worker thread."""
         if self.worker is not None:
             QgsMessageLog.logMessage(self.tr('Killing worker'),
-                                     self.THINGREYSCALE, QgsMessageLog.INFO)
+                                     self.THINGREYSCALE, Qgis.Info)
             self.worker.kill()
 
     def showError(self, text):
@@ -810,10 +816,10 @@ class ThinGreyscaleDialog(QDialog, FORM_CLASS):
     def showInfo(self, text):
         """Show info."""
         self.iface.messageBar().pushMessage(self.tr('Info'), text,
-                                            level=QgsMessageBar.INFO,
+                                            level=Qgis.Info,
                                             duration=2)
         QgsMessageLog.logMessage('Info: ' + text, self.THINGREYSCALE,
-                                 QgsMessageLog.INFO)
+                                 Qgis.Info)
 
     # def help(self):
         # #QDesktopServices.openUrl(QUrl.fromLocalFile(self.plugin_dir +

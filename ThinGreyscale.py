@@ -21,16 +21,18 @@
  ***************************************************************************/
 """
 import os.path
-from PyQt4.QtCore import QSettings, QTranslator, qVersion
-from PyQt4.QtCore import QCoreApplication
-from PyQt4.QtGui import QAction, QIcon
-from qgis.core import QgsMapLayer
+from qgis.PyQt.QtCore import QSettings, QTranslator, qVersion
+from qgis.PyQt.QtCore import QCoreApplication
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction
+from qgis.core import QgsMapLayer, QgsProject
 #from qgis.core import QgsMessageLog
 
+
 # Initialize Qt resources from file resources.py
-import resources_rc
+from . resources import *
 # Import the code for the dialog
-from ThinGreyscale_dialog import ThinGreyscaleDialog
+from .ThinGreyscale_dialog import ThinGreyscaleDialog
 
 
 class ThinGreyscale:
@@ -47,18 +49,17 @@ class ThinGreyscale:
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
-        self.plugin_dir = os.path.dirname(__file__)
+        pluginPath = os.path.dirname(__file__)
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
         locale_path = os.path.join(
-            self.plugin_dir,
+            pluginPath,
             'i18n',
-            'ThinGreyscale_{}.qm'.format(locale))
-
+            #'ThinGreyscale_{}.qm'.format(locale))
+            '{}.qm'.format(locale))
         if os.path.exists(locale_path):
             self.translator = QTranslator()
             self.translator.load(locale_path)
-
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
@@ -90,7 +91,8 @@ class ThinGreyscale:
 
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
-        icon_path = ':/plugins/ThinGreyscale/icon.png'
+        #icon_path = ':/plugins/ThinGreyscale/icon.png'
+        icon_path = os.path.join(os.path.dirname(__file__), "icon.png")
         self.action = QAction(
             QIcon(icon_path),
             self.menu, self.iface.mainWindow())
@@ -116,33 +118,34 @@ class ThinGreyscale:
     def run(self):
         """Run method that performs all the real work"""
         # show the dialog
-        self.dlg.show()
+        #self.dlg.show()
 
         self.dlg.progressBar.setValue(0.0)
         # Populate the inputRaster comboBox
         # Should also check for the type of raster (must be
         # singleband grayscale)
         self.dlg.inputRaster.clear()
-        for alayer in self.iface.legendInterface().layers():
-            gdalmetadata = alayer.metadata()
+        layers = QgsProject.instance().mapLayers()
+        for id in layers.keys():
+            #gdalmetadata = alayer.metadata()
             # Skip WMS layers
-            WMSstring = 'Web Map Service'
-            wmspos = gdalmetadata.find(WMSstring)
-            if wmspos != -1:
-                continue
-            provstring = '<p>GDAL provider</p>\n'
-            providerpos = gdalmetadata.find(provstring)
+            #WMSstring = 'Web Map Service'
+            #wmspos = gdalmetadata.find(WMSstring)
+            #if wmspos != -1:
+            #    continue
+            #provstring = '<p>GDAL provider</p>\n'
+            #providerpos = gdalmetadata.find(provstring)
             #if providerpos == -1:
             #    continue
-            brpos = gdalmetadata.find('<br>', providerpos + len(provstring))
-            aftprovpos = int(providerpos + len(provstring))
-            gdalprovider = gdalmetadata[aftprovpos:int(brpos)]
-            if alayer.type() == QgsMapLayer.RasterLayer:
-                self.dlg.inputRaster.addItem(alayer.name(), alayer.id())
+            #brpos = gdalmetadata.find('<br>', providerpos + len(provstring))
+            #aftprovpos = int(providerpos + len(provstring))
+            #gdalprovider = gdalmetadata[aftprovpos:int(brpos)]
+            if layers[id].type() == QgsMapLayer.RasterLayer:
+                self.dlg.inputRaster.addItem(layers[id].name(), id)
         # show the dialog (needed for the messagebar cancel button)
         self.dlg.show()
         # Run the dialog event loop
-        result = self.dlg.exec_()
+        #result = self.dlg.exec_()
         # See if OK was pressed
         #if result:
         #   pass

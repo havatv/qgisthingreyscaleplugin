@@ -32,7 +32,7 @@ LOCALES = nb
 # you have trouble compiling the translations, you may have to specify the full path to
 # lrelease
 #LRELEASE = lrelease
-LRELEASE = lrelease-qt4
+LRELEASE = lrelease
 
 
 # translation
@@ -40,23 +40,23 @@ SOURCES = \
 	__init__.py \
 	ThinGreyscale.py \
 	ThinGreyscale_dialog.py \
-    ThinGreyscaleEngine.py
+	ThinGreyscaleEngine.py
 
 PLUGINNAME = ThinGreyscale
 
 PY_FILES = \
 	ThinGreyscale.py \
 	ThinGreyscale_dialog.py \
-    ThinGreyscaleEngine.py \
+	ThinGreyscaleEngine.py \
 	__init__.py
 
 UI_FILES = ThinGreyscale_dialog_base.ui
 
 EXTRAS = icon.png metadata.txt
 
-COMPILED_RESOURCE_FILES = resources_rc.py
+COMPILED_RESOURCE_FILES = resources.py
 
-PEP8EXCLUDE=pydev,resources_rc.py,conf.py,third_party,ui
+PEP8EXCLUDE=pydev,resources.py,conf.py,third_party,ui
 
 
 #################################################
@@ -69,14 +69,14 @@ PLUGIN_UPLOAD = $(c)/plugin_upload.py
 
 RESOURCE_SRC=$(shell grep '^ *<file' resources.qrc | sed 's@</file>@@g;s/.*>//g' | tr '\n' ' ')
 
-QGISDIR=.qgis2
+QGISDIR=.local/share/QGIS/QGIS3/profiles/default
 
 default: compile
 
 compile: $(COMPILED_RESOURCE_FILES)
 
-%_rc.py : %.qrc $(RESOURCES_SRC)
-	pyrcc4 -o $*_rc.py  $<
+%.py : %.qrc $(RESOURCES_SRC)
+	pyrcc5 -o $*.py  $<
 
 %.qm : %.ts
 	$(LRELEASE) $<
@@ -102,7 +102,7 @@ test: compile transcompile
 deploy: compile doc transcompile
 	@echo
 	@echo "------------------------------------------"
-	@echo "Deploying plugin to your .qgis2 directory."
+	@echo "Deploying plugin to your .local directory."
 	@echo "------------------------------------------"
 	# The deploy  target only works on unix like operating system where
 	# the Python plugin directory is located at:

@@ -23,11 +23,13 @@ from math import pow, trunc, log
 import numpy as np
 # Should sparse matrices be used instead (scipy.sparse)?
 #import scipy as scp
-from PyQt4.QtCore import QCoreApplication, QObject, pyqtSignal
-from PyQt4.QtCore import QPointF, QLineF, QRectF, QPoint
+from qgis.PyQt import QtCore
+#from qgis.PyQt import pyqtSignal
+from qgis.PyQt.QtCore import QCoreApplication
+from qgis.PyQt.QtCore import QPointF, QLineF, QRectF, QPoint
 
 
-class Worker(QObject):
+class Worker(QtCore.QObject):
     '''The worker that does the heavy lifting.
     /*
      *  Does the thinning of the grayscale raster.
@@ -37,13 +39,13 @@ class Worker(QObject):
     '''
     maxlevels = 255  # we use uint8 to store the skeleton!
     # Define the signals used to communicate back to the application
-    progress = pyqtSignal(float)  # For reporting progress
-    iterprogress = pyqtSignal(float)  # For reporting progress while iterating
-    status = pyqtSignal(str)      # For reporting status
-    error = pyqtSignal(str)       # For reporting errors
-    #killed = pyqtSignal()
+    progress = QtCore.pyqtSignal(float)  # For reporting progress
+    iterprogress = QtCore.pyqtSignal(float)  # For reporting progress while iterating
+    status = QtCore.pyqtSignal(str)      # For reporting status
+    error = QtCore.pyqtSignal(str)       # For reporting errors
+    #killed = QtCore.pyqtSignal()
     # Signal for sending over the result:
-    finished = pyqtSignal(bool, object)
+    finished = QtCore.pyqtSignal(bool, object)
 
     def __init__(self, inputlayer, levels, intvalues):
         """Initialise.
@@ -54,7 +56,7 @@ class Worker(QObject):
         intvalues -- (boolean)
         """
 
-        QObject.__init__(self)  # Essential!
+        QtCore.QObject.__init__(self)  # Essential!
         # Creating instance variables from the parameters
         self.inpl = inputlayer
         self.inputrdp = self.inpl.dataProvider()
